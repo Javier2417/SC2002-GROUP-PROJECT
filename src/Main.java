@@ -20,41 +20,45 @@ public class Main {
 
     private static void displayLoginMenu() {
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("Login Menu");
-            System.out.println("1. Login");
-            System.out.println("2. Terminate");
-            System.out.print("Choose an option: ");
+        try {
+            while (true) {
+                System.out.println("Login Menu");
+                System.out.println("1. Login");
+                System.out.println("2. Terminate");
+                System.out.print("Choose an option: ");
 
-            if (scanner.hasNextInt()) {
-                int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                if (scanner.hasNextInt()) {
+                    int choice = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
 
-                switch (choice) {
-                    case 1:
-                        System.out.print("User ID: ");
-                        String userID = scanner.nextLine();
-                        System.out.print("Password: ");
-                        String password = scanner.nextLine();
+                    switch (choice) {
+                        case 1:
+                            System.out.print("User ID: ");
+                            String userID = scanner.nextLine();
+                            System.out.print("Password: ");
+                            String password = scanner.nextLine();
 
-                        User user = authenticateUser(userID, password);
-                        if (user != null) {
-                            displayPasswordChangeMenu(user);
-                        } else {
-                            System.out.println("Invalid User ID or Password. Please try again.");
-                        }
-                        break;
-                    case 2:
-                        System.out.println("Terminating program.");
-                        return; // Exit the program
-                    default:
-                        System.out.println("Invalid option. Please try again.");
-                        break;
+                            User user = authenticateUser(userID, password);
+                            if (user != null) {
+                                displayPasswordChangeMenu(user);
+                            } else {
+                                System.out.println("Invalid User ID or Password. Please try again.");
+                            }
+                            break;
+                        case 2:
+                            System.out.println("Terminating program.");
+                            return; // Exit the program
+                        default:
+                            System.out.println("Invalid option. Please try again.");
+                            break;
+                    }
+                } else {
+                    System.out.println("Invalid input. Please enter a number.");
+                    scanner.nextLine(); // Consume invalid input
                 }
-            } else {
-                System.out.println("Invalid input. Please enter a number.");
-                scanner.nextLine(); // Consume invalid input
             }
+        } finally {
+            scanner.close();
         }
     }
 

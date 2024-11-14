@@ -39,6 +39,7 @@ public abstract class User {
 
     public void logout() {
         System.out.println("Logging out user: " + userID);
+        
     }
 
     public void changePassword(Scanner scanner, PasswordManager passwordManager) {

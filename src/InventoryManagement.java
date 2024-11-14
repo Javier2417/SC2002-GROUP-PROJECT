@@ -1,13 +1,17 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InventoryManagement {
     private List<Medication> inventory;
+    private Map<String, Medication> medicationMap;
     private CSVUtility csvUtility;
 
     public InventoryManagement(String csvFilePath) {
         this.csvUtility = new CSVUtility(csvFilePath);
         this.inventory = new ArrayList<>();
+        this.medicationMap = new HashMap<>();
         loadInventoryFromCSV();
     }
 
@@ -19,7 +23,9 @@ public class InventoryManagement {
             String name = row[0];
             int stockLevel = Integer.parseInt(row[1]);
             int lowStockLevel = Integer.parseInt(row[2]);
-            inventory.add(new Medication(name, stockLevel, lowStockLevel));
+            Medication medication = new Medication(name, stockLevel, lowStockLevel);
+            inventory.add(medication);
+            medicationMap.put(name, medication);
         }
     }
 
@@ -34,13 +40,16 @@ public class InventoryManagement {
     }
 
     public void addMedication(String name, int initialStock, int lowStockLevel) {
-        inventory.add(new Medication(name, initialStock, lowStockLevel));
+        Medication medication = new Medication(name, initialStock, lowStockLevel);
+        inventory.add(medication);
+        medicationMap.put(name, medication);
         saveInventoryToCSV();
         System.out.println(name + " added to inventory.");
     }
 
     public void removeMedication(String name) {
         inventory.removeIf(med -> med.getName().equals(name));
+        medicationMap.remove(name);
         saveInventoryToCSV();
         System.out.println(name + " removed from inventory.");
     }
@@ -77,4 +86,39 @@ public class InventoryManagement {
         }
     }
 
+    public void checkStockLevels() {
+        boolean lowStockFound = false; // Flag to check if any low stock items are found
+        for (Medication medication : medicationMap.values()) {
+            if (medication.getStockLevel() < medication.getLowStockLevel()) {
+                System.out.println("Low stock alert for: " + medication.getName());
+                lowStockFound = true; // Set flag to true if low stock is found
+            }
+        }
+        if (!lowStockFound) {
+            System.out.println("All medicines are sufficiently stocked.");
+        }
+    }
+
+    public Map<String, Medication> getLowStockItems() {
+        Map<String, Medication> lowStockItems = new HashMap<>();
+        for (Medication medication : medicationMap.values()) {
+            if (medication.getStockLevel() <= medication.getLowStockLevel()) {
+                lowStockItems.put(medication.getName(), medication);
+            }
+        }
+        return lowStockItems;
+    }
+
+    public void submitReplenishmentRequest(String name) {
+        Medication medication = medicationMap.get(name);
+        if (medication != null && medication.getStockLevel() <= medication.getLowStockLevel()) {
+            // Logic to handle replenishment request
+            System.out.println("Replenishment request submitted for: " + name);
+            // Here you could add logic to notify an administrator or log the request.
+        } else if (medication == null) {
+            System.out.println("Medicine not found: " + name);
+        } else {
+            System.out.println("No replenishment needed for: " + name);
+        }
+    }
 }

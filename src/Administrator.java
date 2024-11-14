@@ -15,122 +15,133 @@ public class Administrator extends User {
     }
 
     @Override
+
     public void displayRoleSpecificMenu() {
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("\nAdministrator Menu:");
-            System.out.println("1. View and Manage Staff");
-            System.out.println("2. View Appointments");
-            System.out.println("3. Manage Inventory");
-            System.out.println("4. Approve Replenishment Requests");
-            System.out.println("5. Return to main menu");
+        try {
+            while (true) {
+                System.out.println("\nAdministrator Menu:");
+                System.out.println("1. View and Manage Staff");
+                System.out.println("2. View Appointments");
+                System.out.println("3. Manage Inventory");
+                System.out.println("4. Approve Replenishment Requests");
+                System.out.println("5. Return to main menu");
 
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+                System.out.print("Enter your choice: ");
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
 
-            switch (choice) {
-                case 1:
-                    viewAndManageStaff();
-                    break;
-                case 2:
-                    viewAppointments();
-                    break;
-                case 3:
-                    manageInventory();
-                    break;
-                case 4:
-                    approveReplenishmentRequest();
-                    break;
-                case 5:
-                    logout();
-                    return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                switch (choice) {
+                    case 1:
+                        viewAndManageStaff();
+                        break;
+                    case 2:
+                        viewAppointments();
+                        break;
+                    case 3:
+                        manageInventory();
+                        break;
+                    case 4:
+                        approveReplenishmentRequest();
+                        break;
+                    case 5:
+                        logout();
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
             }
+        } finally {
+            
         }
     }
+
 
     public void viewAndManageStaff() {
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("\nStaff Management Menu:");
-            System.out.println("1. Add Staff Member");
-            System.out.println("2. Update Staff Member");
-            System.out.println("3. Remove Staff Member");
-            System.out.println("4. Print Staff Data");
-            System.out.println("5. Sort Staff by Gender");
-            System.out.println("6. Sort Staff by Age");
-            System.out.println("7. Sort Staff by Role");
-            System.out.println("8. Exit");
+        try {
+            while (true) {
+                System.out.println("\nStaff Management Menu:");
+                System.out.println("1. Add Staff Member");
+                System.out.println("2. Update Staff Member");
+                System.out.println("3. Remove Staff Member");
+                System.out.println("4. Print Staff Data");
+                System.out.println("5. Sort Staff by Gender");
+                System.out.println("6. Sort Staff by Age");
+                System.out.println("7. Sort Staff by Role");
+                System.out.println("8. Exit");
 
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+                System.out.print("Enter your choice: ");
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
 
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter Staff ID: ");
-                    String newID = scanner.nextLine();
-                    System.out.print("Enter Name: ");
-                    String newName = scanner.nextLine();
-                    System.out.print("Enter Role (Doctor/Pharmacist): ");
-                    String newRole = scanner.nextLine();
-                    System.out.print("Enter Gender: ");
-                    String newGender = scanner.nextLine();
-                    System.out.print("Enter Age: ");
-                    String newAge = scanner.nextLine();
-                    String[] newStaff = {newID, newName, newRole, newGender, newAge};
-                    addStaffMember(newStaff);
-                    break;
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter Staff ID: ");
+                        String newID = scanner.nextLine();
+                        System.out.print("Enter Name: ");
+                        String newName = scanner.nextLine();
+                        System.out.print("Enter Role (Doctor/Pharmacist): ");
+                        String newRole = scanner.nextLine();
+                        System.out.print("Enter Gender: ");
+                        String newGender = scanner.nextLine();
+                        System.out.print("Enter Age: ");
+                        String newAge = scanner.nextLine();
+                        String[] newStaff = {newID, newName, newRole, newGender, newAge};
+                        addStaffMember(newStaff);
+                        break;
 
-                case 2:
-                    System.out.print("Enter Staff ID to update: ");
-                    String updateID = scanner.nextLine();
-                    System.out.print("Enter New Name: ");
-                    String updatedName = scanner.nextLine();
-                    System.out.print("Enter New Role (Doctor/Pharmacist): ");
-                    String updatedRole = scanner.nextLine();
-                    System.out.print("Enter New Gender: ");
-                    String updatedGender = scanner.nextLine();
-                    System.out.print("Enter New Age: ");
-                    String updatedAge = scanner.nextLine();
-                    String[] updatedInfo = {updateID, updatedName, updatedRole, updatedGender, updatedAge};
-                    updateStaffMember(updateID, updatedInfo);
-                    break;
+                    case 2:
+                        System.out.print("Enter Staff ID to update: ");
+                        String updateID = scanner.nextLine();
+                        System.out.print("Enter New Name: ");
+                        String updatedName = scanner.nextLine();
+                        System.out.print("Enter New Role (Doctor/Pharmacist): ");
+                        String updatedRole = scanner.nextLine();
+                        System.out.print("Enter New Gender: ");
+                        String updatedGender = scanner.nextLine();
+                        System.out.print("Enter New Age: ");
+                        String updatedAge = scanner.nextLine();
+                        String[] updatedInfo = {updateID, updatedName, updatedRole, updatedGender, updatedAge};
+                        updateStaffMember(updateID, updatedInfo);
+                        break;
 
-                case 3:
-                    System.out.print("Enter Staff ID to remove: ");
-                    String removeID = scanner.nextLine();
-                    removeStaffMember(removeID);
-                    break;
+                    case 3:
+                        System.out.print("Enter Staff ID to remove: ");
+                        String removeID = scanner.nextLine();
+                        removeStaffMember(removeID);
+                        break;
 
-                case 4:
-                    List<String[]> staffData = csvUtility.readCSV();
-                    printStaffData(staffData);
-                    break;
+                    case 4:
+                        List<String[]> staffData = csvUtility.readCSV();
+                        printStaffData(staffData);
+                        break;
 
-                case 5:
-                    sortStaffByGender();
-                    break;
+                    case 5:
+                        sortStaffByGender();
+                        break;
 
-                case 6:
-                    sortStaffByAge();
-                    break;
+                    case 6:
+                        sortStaffByAge();
+                        break;
 
-                case 7:
-                    sortStaffByRole();
-                    break;
+                    case 7:
+                        sortStaffByRole();
+                        break;
 
-                case 8:
-                    System.out.println("Exiting staff management...");
-                    return;
+                    case 8:
+                        System.out.println("Exiting staff management...");
+                        return;
 
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
             }
+        } finally {
+            
         }
     }
+
 
 
     public void addStaffMember(String[] newStaff) {
@@ -239,68 +250,73 @@ public class Administrator extends User {
 
     public void manageInventory() {
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("\nInventory Management Menu:");
-            System.out.println("1. Add Medication");
-            System.out.println("2. Remove Medication");
-            System.out.println("3. Update Stock Level");
-            System.out.println("4. Update Low Stock Level");
-            System.out.println("5. Print Inventory");
-            System.out.println("6. Exit");
+        try {
+            while (true) {
+                System.out.println("\nInventory Management Menu:");
+                System.out.println("1. Add Medication");
+                System.out.println("2. Remove Medication");
+                System.out.println("3. Update Stock Level");
+                System.out.println("4. Update Low Stock Level");
+                System.out.println("5. Print Inventory");
+                System.out.println("6. Exit");
 
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+                System.out.print("Enter your choice: ");
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
 
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter Medication Name: ");
-                    String name = scanner.nextLine();
-                    System.out.print("Enter Initial Stock: ");
-                    int initialStock = scanner.nextInt();
-                    System.out.print("Enter Low Stock Level: ");
-                    int lowStockLevel = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
-                    inventoryManagement.addMedication(name, initialStock, lowStockLevel);
-                    break;
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter Medication Name: ");
+                        String name = scanner.nextLine();
+                        System.out.print("Enter Initial Stock: ");
+                        int initialStock = scanner.nextInt();
+                        System.out.print("Enter Low Stock Level: ");
+                        int lowStockLevel = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+                        inventoryManagement.addMedication(name, initialStock, lowStockLevel);
+                        break;
 
-                case 2:
-                    System.out.print("Enter Medication Name to Remove: ");
-                    String removeName = scanner.nextLine();
-                    inventoryManagement.removeMedication(removeName);
-                    break;
+                    case 2:
+                        System.out.print("Enter Medication Name to Remove: ");
+                        String removeName = scanner.nextLine();
+                        inventoryManagement.removeMedication(removeName);
+                        break;
 
-                case 3:
-                    System.out.print("Enter Medication Name to Update Stock Level: ");
-                    String updateName = scanner.nextLine();
-                    System.out.print("Enter New Stock Level: ");
-                    int newStockLevel = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
-                    inventoryManagement.updateStockLevel(updateName, newStockLevel);
-                    break;
+                    case 3:
+                        System.out.print("Enter Medication Name to Update Stock Level: ");
+                        String updateName = scanner.nextLine();
+                        System.out.print("Enter New Stock Level: ");
+                        int newStockLevel = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+                        inventoryManagement.updateStockLevel(updateName, newStockLevel);
+                        break;
 
-                case 4:
-                    System.out.print("Enter Medication Name to Update Low Stock Level: ");
-                    String updateLowName = scanner.nextLine();
-                    System.out.print("Enter New Low Stock Level: ");
-                    int newLowStockLevel = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
-                    inventoryManagement.updateLowStockLevel(updateLowName, newLowStockLevel);
-                    break;
+                    case 4:
+                        System.out.print("Enter Medication Name to Update Low Stock Level: ");
+                        String updateLowName = scanner.nextLine();
+                        System.out.print("Enter New Low Stock Level: ");
+                        int newLowStockLevel = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+                        inventoryManagement.updateLowStockLevel(updateLowName, newLowStockLevel);
+                        break;
 
-                case 5:
-                    inventoryManagement.printInventory();
-                    break;
+                    case 5:
+                        inventoryManagement.printInventory();
+                        break;
 
-                case 6:
-                    System.out.println("Exiting inventory management...");
-                    return;
+                    case 6:
+                        System.out.println("Exiting inventory management...");
+                        return;
 
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
             }
+        } finally {
+            
         }
     }
+
 
     public void approveReplenishmentRequest() {
         System.out.println("Approving replenishment request...");
