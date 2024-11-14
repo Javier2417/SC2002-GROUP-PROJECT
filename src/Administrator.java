@@ -1,4 +1,7 @@
 import java.util.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 
 public class Administrator extends User {
 	//can create an interface for this 
@@ -20,7 +23,7 @@ public class Administrator extends User {
             System.out.println("2. View Appointments");
             System.out.println("3. Manage Inventory");
             System.out.println("4. Approve Replenishment Requests");
-            System.out.println("5. logout");
+            System.out.println("5. Return to main menu");
 
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
@@ -137,17 +140,39 @@ public class Administrator extends User {
         if (userIDExists) {
             System.out.println("Error: UserID already exists.");
         } else {
-            staffData.add(newStaff);
+            // Generate a default password
+            String defaultPassword = "password";
+            // Generate salt
+            byte[] salt = PasswordUtils.generateSalt();
+            String hashedPassword = null;
+            try {
+                // Hash the default password
+                hashedPassword = PasswordUtils.hashPassword(defaultPassword, salt);
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                e.printStackTrace();
+            }
+            // Add hashed password and salt to newStaff array
+            String[] newStaffWithPassword = Arrays.copyOf(newStaff, newStaff.length + 2);
+            newStaffWithPassword[newStaff.length] = hashedPassword.split(":")[0]; // Store only the hash
+            newStaffWithPassword[newStaff.length + 1] = hashedPassword.split(":")[1]; // Store only the salt
+            staffData.add(newStaffWithPassword);
             csvUtility.writeCSV(staffData);
             System.out.println("Staff member added successfully!");
         }
     }
 
+
+
+
     public void updateStaffMember(String staffID, String[] updatedInfo) {
         List<String[]> staffData = csvUtility.readCSV();
         for (String[] staff : staffData) {
             if (staff[0].equals(staffID)) {
-                for (int i = 0; i < staff.length; i++) {
+                // Ensure the array has enough space for hashed password and salt
+                if (staff.length < updatedInfo.length + 2) {
+                    staff = Arrays.copyOf(staff, updatedInfo.length + 2);
+                }
+                for (int i = 0; i < updatedInfo.length; i++) {
                     staff[i] = updatedInfo[i];
                 }
                 break;
@@ -156,6 +181,7 @@ public class Administrator extends User {
         csvUtility.writeCSV(staffData);
         System.out.println("Staff member updated successfully!");
     }
+
 
     public void removeStaffMember(String staffID) {
         List<String[]> staffData = csvUtility.readCSV();
@@ -281,10 +307,43 @@ public class Administrator extends User {
     }
 
     private void printStaffData(List<String[]> staffData) {
-        for (String[] row : staffData) {
-            System.out.println(Arrays.toString(row));
+        if (staffData.isEmpty()) {
+            System.out.println("No staff data available.");
+            return;
+        }
+
+        // Get the headers
+        String[] headers = staffData.get(0);
+        List<Integer> excludeIndices = new ArrayList<>();
+
+        // Find indices of "Hashed Password" and "Salt"
+        for (int i = 0; i < headers.length; i++) {
+            if (headers[i].equalsIgnoreCase("Hashed Password") || headers[i].equalsIgnoreCase("Salt")) {
+                excludeIndices.add(i);
+            }
+        }
+
+        // Print headers excluding "Hashed Password" and "Salt"
+        for (int i = 0; i < headers.length; i++) {
+            if (!excludeIndices.contains(i)) {
+                System.out.print(headers[i] + "\t");
+            }
+        }
+        System.out.println();
+
+        // Print staff data excluding "Hashed Password" and "Salt"
+        for (int rowIndex = 1; rowIndex < staffData.size(); rowIndex++) {
+            String[] row = staffData.get(rowIndex);
+            for (int i = 0; i < row.length; i++) {
+                if (!excludeIndices.contains(i)) {
+                    System.out.print(row[i] + "\t");
+                }
+            }
+            System.out.println();
         }
     }
+
+
 
     
 }
