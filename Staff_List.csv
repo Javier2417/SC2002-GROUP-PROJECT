@@ -1,0 +1,8 @@
+UserID,Name,Role,Gender,Age,Hashed Password,Salt
+A001,Sarah Lee,Administrator,Female,40,d8ZUqmF8OTj38+W+qHgnyw==:2xHMEVL6WNZR1CU/vYM3Gw==,2xHMEVL6WNZR1CU/vYM3Gw==
+D002,Emily Clarke,Doctor,Female,38,1GOMhQEpQfcHJrKkav2ghw==:cvcel+FdfvZufMkXyW+Syw==,cvcel+FdfvZufMkXyW+Syw==
+D001,Patricia,Pharmacist,Female,100,o7xr6TqCzFQTMys/Ck7VkQ==:EFheMtGf25qM+JoBUpFOhQ==,EFheMtGf25qM+JoBUpFOhQ==
+D003,Tim,Doctor,Male,24,gyBpPiS9KJhZclj4X/3ftw==:MduLgOhRaf246gTM8ogXAg==,MduLgOhRaf246gTM8ogXAg==
+P002,Alan,Pharmacist,Male,22,GPzIvVKoosw6ZDbQp+/3TA==:3G7tm5+oFssoQy5ZLVNGxg==,3G7tm5+oFssoQy5ZLVNGxg==
+P001,Mark Lee,Pharmacist,Male,29,s/4/IKCCJH3WpEcvmdYwZQ==:pxjipar9A9UgxAgsdIzwkA==,pxjipar9A9UgxAgsdIzwkA==
+P005,Mr Chong,Doctor,Male,21,Ii0s0U0EL4hz9AigmB6loQ==:JUPX+Bo2LXJz5UJPBOTo5g==,JUPX+Bo2LXJz5UJPBOTo5g==
