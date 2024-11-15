@@ -319,7 +319,7 @@ public class Administrator extends User {
 
 
     public void approveReplenishmentRequest() {
-        System.out.println("Approving replenishment request...");
+    	 inventoryManagement.approveReplenishmentRequest();        
     }
 
     private void printStaffData(List<String[]> staffData) {

@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InventoryManagement {
     private List<Medication> inventory;
@@ -23,7 +20,9 @@ public class InventoryManagement {
             String name = row[0];
             int stockLevel = Integer.parseInt(row[1]);
             int lowStockLevel = Integer.parseInt(row[2]);
+            boolean replenishmentRequest = Boolean.parseBoolean(row[3]);
             Medication medication = new Medication(name, stockLevel, lowStockLevel);
+            medication.setReplenishmentRequest(replenishmentRequest);
             inventory.add(medication);
             medicationMap.put(name, medication);
         }
@@ -32,9 +31,9 @@ public class InventoryManagement {
     private void saveInventoryToCSV() {
         List<String[]> data = new ArrayList<>();
         // Add the header row
-        data.add(new String[]{"Medicine Name", "Initial Stock", "Low Stock Level Alert"});
+        data.add(new String[]{"Medicine Name", "Initial Stock", "Low Stock Level Alert", "Replenishment Request"});
         for (Medication med : inventory) {
-            data.add(new String[]{med.getName(), String.valueOf(med.getStockLevel()), String.valueOf(med.getLowStockLevel())});
+            data.add(new String[]{med.getName(), String.valueOf(med.getStockLevel()), String.valueOf(med.getLowStockLevel()), String.valueOf(med.isReplenishmentRequest())});
         }
         csvUtility.writeCSV(data);
     }
@@ -80,9 +79,9 @@ public class InventoryManagement {
 
     public void printInventory() {
         System.out.println("Inventory:");
-        System.out.println("[Medication Name, Stock Level, Low Stock Level Alert]");
+        System.out.println("[Medication Name, Stock Level, Low Stock Level Alert, Replenishment Request]");
         for (Medication med : inventory) {
-            System.out.println("[" + med.getName() + ", " + med.getStockLevel() + ", " + med.getLowStockLevel() + "]");
+            System.out.println("[" + med.getName() + ", " + med.getStockLevel() + ", " + med.getLowStockLevel() + ", " + med.isReplenishmentRequest() + "]");
         }
     }
 
@@ -102,7 +101,7 @@ public class InventoryManagement {
     public Map<String, Medication> getLowStockItems() {
         Map<String, Medication> lowStockItems = new HashMap<>();
         for (Medication medication : medicationMap.values()) {
-            if (medication.getStockLevel() <= medication.getLowStockLevel()) {
+            if (medication.getStockLevel() <= medication.getLowStockLevel() && medication.isReplenishmentRequest()) {
                 lowStockItems.put(medication.getName(), medication);
             }
         }
@@ -112,13 +111,44 @@ public class InventoryManagement {
     public void submitReplenishmentRequest(String name) {
         Medication medication = medicationMap.get(name);
         if (medication != null && medication.getStockLevel() <= medication.getLowStockLevel()) {
-            // Logic to handle replenishment request
+            medication.setReplenishmentRequest(true);
+            saveInventoryToCSV();
             System.out.println("Replenishment request submitted for: " + name);
-            // Here you could add logic to notify an administrator or log the request.
         } else if (medication == null) {
             System.out.println("Medicine not found: " + name);
         } else {
             System.out.println("No replenishment needed for: " + name);
+        }
+    }
+
+    public void approveReplenishmentRequest() {
+        Scanner scanner = new Scanner(System.in);
+        Map<String, Medication> lowStockItems = getLowStockItems();
+
+        if (lowStockItems.isEmpty()) {
+            System.out.println("No replenishment requests to approve.");
+            return;
+        }
+
+        System.out.println("Medications with replenishment requests:");
+        for (String name : lowStockItems.keySet()) {
+            Medication medication = lowStockItems.get(name);
+            System.out.println(name + " - Current Stock: " + medication.getStockLevel() + ", Low Stock Level: " + medication.getLowStockLevel());
+        }
+
+        System.out.print("Enter the name of the medication to approve replenishment: ");
+        String medicationName = scanner.nextLine();
+        Medication medication = lowStockItems.get(medicationName);
+
+        if (medication != null) {
+            System.out.print("Enter the number of units to add: ");
+            int unitsToAdd = scanner.nextInt();
+            updateStockLevel(medicationName, medication.getStockLevel() + unitsToAdd);
+            medication.setReplenishmentRequest(false); // Reset the flag after approval
+            saveInventoryToCSV();
+            System.out.println("Replenishment approved for: " + medicationName + ". Added " + unitsToAdd + " units.");
+        } else {
+            System.out.println("Medication not found or does not need replenishment: " + medicationName);
         }
     }
 }

@@ -28,12 +28,7 @@ public class Pharmacist extends User {
                 System.out.println("3. View Medication Inventory");
                 System.out.println("4. Check Stock Levels");
                 System.out.println("5. Submit Replenishment Request");
-                System.out.println("6. Add Medication");
-                System.out.println("7. Remove Medication");
-                System.out.println("8. Update Stock Level");
-                System.out.println("9. Update Low Stock Level");
-                System.out.println("10. Print Inventory");
-                System.out.println("11. Logout");
+                System.out.println("6. Logout");
                 System.out.print("Enter your choice: ");
 
                 while (!scanner.hasNextInt()) { // Input validation
@@ -60,28 +55,12 @@ public class Pharmacist extends User {
                         submitReplenishmentRequest(scanner);
                         break;
                     case 6:
-                        addMedication(scanner);
-                        break;
-                    case 7:
-                        removeMedication(scanner);
-                        break;
-                    case 8:
-                        updateStockLevel(scanner);
-                        break;
-                    case 9:
-                        updateLowStockLevel(scanner);
-                        break;
-                    case 10:
-                        printInventory();
-                        break;
-                    case 11:
                         logout();
-                        
                         return;
                     default:
                         System.out.println("Invalid choice. Please try again.");
                 }
-            } while (choice != 11);
+            } while (choice != 6);
         } finally {
             
         }
@@ -119,47 +98,5 @@ public class Pharmacist extends User {
         inventoryManagement.submitReplenishmentRequest(name); // Call to submit replenishment request
     }
 
-    private void addMedication(Scanner scanner) {
-        scanner.nextLine(); // Consume newline
-        System.out.print("Enter Medicine Name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter Initial Stock: ");
-        int initialStock = scanner.nextInt();
-        System.out.print("Enter Low Stock Level: ");
-        int lowStockLevel = scanner.nextInt();
-
-        inventoryManagement.addMedication(name, initialStock, lowStockLevel);
-    }
-
-    private void removeMedication(Scanner scanner) {
-        scanner.nextLine(); // Consume newline
-        System.out.print("Enter Medicine Name to remove: ");
-        String name = scanner.nextLine();
-
-        inventoryManagement.removeMedication(name);
-    }
-
-    private void updateStockLevel(Scanner scanner) {
-        scanner.nextLine(); // Consume newline
-        System.out.print("Enter Medicine Name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter New Stock Level: ");
-        int newStockLevel = scanner.nextInt();
-
-        inventoryManagement.updateStockLevel(name, newStockLevel);
-    }
-
-    private void updateLowStockLevel(Scanner scanner) {
-        scanner.nextLine(); // Consume newline
-        System.out.print("Enter Medicine Name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter New Low Stock Level: ");
-        int newLowStockLevel = scanner.nextInt();
-
-        inventoryManagement.updateLowStockLevel(name, newLowStockLevel);
-    }
-
-    private void printInventory() {
-        inventoryManagement.printInventory();
-    }
+    
 }
